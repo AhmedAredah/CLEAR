@@ -1,0 +1,20 @@
+{
+  "title": "CLEAR: Clean, Leakage-free Evaluation And Reporting for highway trajectory prediction",
+  "description": "An open toolkit that evaluates highway vehicle-trajectory prediction under a leakage-free, stratified, admissibility-aware protocol. It anchors every model against the constant-velocity / constant-acceleration / IDM baselines on a recording-/vehicle-disjoint split and emits a standardized Eval Card that forces disclosure of the baseline set, the split, the scoring convention, stratified error, and a predicted-collision admissibility metric.",
+  "upload_type": "software",
+  "license": "BSD-3-Clause",
+  "creators": [
+    { "name": "Aredah, Ahmed" }
+  ],
+  "keywords": [
+    "trajectory prediction",
+    "autonomous driving",
+    "benchmark evaluation",
+    "data leakage",
+    "reproducibility",
+    "highD",
+    "exiD",
+    "NGSIM"
+  ],
+  "access_right": "open"
+}

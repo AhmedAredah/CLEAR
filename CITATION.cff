@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use CLEAR, please cite both the software and the paper."
+title: "CLEAR: Clean, Leakage-free Evaluation And Reporting for highway trajectory prediction"
+type: software
+authors:
+  - family-names: Aredah
+    given-names: Ahmed
+version: 0.3.0
+license: BSD-3-Clause
+repository-code: "https://github.com/AhmedAredah/CLEAR"
+keywords:
+  - trajectory prediction
+  - autonomous driving
+  - benchmark evaluation
+  - data leakage
+  - reproducibility
+preferred-citation:
+  type: article
+  title: "Constant Acceleration Is a Hard Baseline: A Leakage-Free Re-Evaluation of Highway Vehicle-Trajectory-Prediction Benchmarks"
+  authors:
+    - family-names: Aredah
+      given-names: Ahmed
+  year: 2026

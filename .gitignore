@@ -1,0 +1,44 @@
+# --- Datasets: NEVER commit (no redistribution rights) ---
+*.csv
+*_tracks.csv
+*_tracksMeta.csv
+*_recordingMeta.csv
+*_background.png
+highD-dataset*/
+exiD-dataset*/
+inD-dataset*/
+rounD-dataset*/
+NGSIM*/
+data/
+datasets/
+*.mat
+*.npz
+
+# --- Eval Card / run outputs ---
+card/
+repro_cards/
+*_card/
+evalcard.json
+evalcard.md
+evalcard.pdf
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# --- Editors / OS ---
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# uv lockfile (library: pin via pyproject, not lock)
+uv.lock

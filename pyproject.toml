@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clear-eval"
+version = "0.3.0"
+description = "Clean, Leakage-free Evaluation And Reporting for highway vehicle-trajectory prediction"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "BSD-3-Clause" }
+authors = [{ name = "Ahmed Aredah", email = "ahmed.aredah@gmail.com" }]
+keywords = ["trajectory-prediction", "autonomous-driving", "benchmark", "evaluation",
+            "highD", "exiD", "NGSIM", "data-leakage", "reproducibility"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = ["numpy>=1.21"]
+
+[project.optional-dependencies]
+figures = ["matplotlib>=3.5"]
+deep = ["torch>=1.12"]
+dev = ["pytest>=7", "matplotlib>=3.5"]
+
+[project.urls]
+Homepage = "https://github.com/AhmedAredah/CLEAR"
+Repository = "https://github.com/AhmedAredah/CLEAR"
+Issues = "https://github.com/AhmedAredah/CLEAR/issues"
+
+[project.scripts]
+clear = "clear.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["clear"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
