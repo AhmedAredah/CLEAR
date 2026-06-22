@@ -7,26 +7,26 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Circle
 # Okabe-Ito accents
 BLUE, GREEN, ORANGE, VERM, GREY = "#0072B2", "#009E73", "#E69F00", "#D55E00", "#5A5A5A"
 INK, FAINT, LINE = "#1A1A1A", "#FBFCFD", "#D9DEE3"
-mpl.rcParams.update({
-    "font.family": "DejaVu Sans", "savefig.dpi": 220, "savefig.bbox": "tight", "pdf.fonttype": 42,
-})
+mpl.rcParams.update({"font.family": "DejaVu Sans", "savefig.dpi": 220, "savefig.bbox": "tight",
+                     "pdf.fonttype": 42})
 
-fig, ax = plt.subplots(figsize=(11.4, 5.6))
+fig, ax = plt.subplots(figsize=(11.4, 6.0))
 ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
 
 # ---------- title ----------
 ax.text(0.5, 0.985, "CLEAR", ha="center", va="top", fontsize=18, fontweight="bold", color=INK)
-ax.text(0.5, 0.905, "Clean, Leakage-free Evaluation And Reporting", ha="center", va="top",
+ax.text(0.5, 0.912, "Clean, Leakage-free Evaluation And Reporting", ha="center", va="top",
         fontsize=11, color=INK)
-ax.text(0.5, 0.862, "an honest evaluation harness for highway trajectory prediction", ha="center",
+ax.text(0.5, 0.872, "an honest evaluation harness for highway trajectory prediction", ha="center",
         va="top", fontsize=9.3, color=GREY, style="italic")
 
-# ---------- three stage cards (equal height, aligned) ----------
-CARD_Y, CARD_H = 0.385, 0.42
+# ---------- three stage cards (equal height + shared row pitch) ----------
+CARD_Y, CARD_H = 0.345, 0.475
+HEADER_H, PAD_TOP, PAD_BOT, BODY_OFF = 0.105, 0.020, 0.030, 0.027
 cards = [
     (0.025, 0.285, BLUE, "1", "INPUTS", [
         ("A dataset", "highD · exiD · NGSIM"),
-        ("", "(you provide it — CLEAR ships none)"),
+        ("", "you provide it — CLEAR ships none"),
         ("Your model", "subclass Predictor"),
         ("", "predict(ws) → (N, T, 2)"),
     ]),
@@ -45,61 +45,64 @@ cards = [
         ("5-point checklist", "JSON · Markdown · figure"),
     ]),
 ]
+N_MAX = max(len(c[5]) for c in cards)
+CONTENT_TOP = CARD_Y + CARD_H - HEADER_H - PAD_TOP
+CONTENT_BOT = CARD_Y + PAD_BOT
+PITCH = (CONTENT_TOP - CONTENT_BOT - BODY_OFF) / (N_MAX - 1)   # shared across cards -> rows align
 
 
 def card(x, w, accent, num, title, rows):
-    ax.add_patch(FancyBboxPatch((x, CARD_Y), w, CARD_H, boxstyle="round,pad=0.006,rounding_size=0.018",
+    ax.add_patch(FancyBboxPatch((x, CARD_Y), w, CARD_H, boxstyle="round,pad=0.006,rounding_size=0.016",
                                 linewidth=1.1, edgecolor=LINE, facecolor=FAINT, zorder=2))
-    cy = CARD_Y + CARD_H - 0.052
-    ax.add_patch(Circle((x + 0.032, cy + 0.004), 0.0185, color=accent, zorder=4))
-    ax.text(x + 0.032, cy + 0.004, num, ha="center", va="center", fontsize=10, fontweight="bold",
+    cy = CARD_Y + CARD_H - 0.050
+    ax.add_patch(Circle((x + 0.032, cy), 0.0185, color=accent, zorder=4))
+    ax.text(x + 0.032, cy, num, ha="center", va="center", fontsize=10, fontweight="bold",
             color="white", zorder=5)
-    ax.text(x + 0.064, cy, title, ha="left", va="center", fontsize=11.5, fontweight="bold", color=accent,
-            zorder=4)
-    ax.plot([x + 0.022, x + w - 0.022], [CARD_Y + CARD_H - 0.092] * 2, color=LINE, lw=1.0, zorder=3)
-    ty = CARD_Y + CARD_H - 0.135; step = (CARD_H - 0.175) / max(len(rows), 1)
-    for lead, body in rows:
+    ax.text(x + 0.064, cy, title, ha="left", va="center", fontsize=11.5, fontweight="bold",
+            color=accent, zorder=4)
+    ax.plot([x + 0.022, x + w - 0.022], [CARD_Y + CARD_H - HEADER_H + 0.012] * 2, color=LINE, lw=1.0,
+            zorder=3)
+    for i, (lead, body) in enumerate(rows):
+        y = CONTENT_TOP - i * PITCH
         if lead:
-            ax.text(x + 0.024, ty, "▪", ha="left", va="center", fontsize=7, color=accent, zorder=4)
-            ax.text(x + 0.044, ty, lead, ha="left", va="center", fontsize=9.2, fontweight="bold",
+            ax.text(x + 0.024, y, "▪", ha="left", va="center", fontsize=7, color=accent, zorder=4)
+            ax.text(x + 0.046, y, lead, ha="left", va="center", fontsize=9.4, fontweight="bold",
                     color=INK, zorder=4)
-            ax.text(x + 0.044, ty - 0.028, body, ha="left", va="center", fontsize=8.4, color="#444",
+            ax.text(x + 0.046, y - BODY_OFF, body, ha="left", va="center", fontsize=8.5, color="#454545",
                     zorder=4)
-            ty -= step * 1.42
-        else:
-            ax.text(x + 0.044, ty + 0.006, body, ha="left", va="center", fontsize=8.4, color="#444",
-                    style="italic", zorder=4)
-            ty -= step * 0.92
+        else:                                   # continuation / note: single italic line in the slot
+            ax.text(x + 0.046, y - BODY_OFF * 0.5, body, ha="left", va="center", fontsize=8.5,
+                    color="#6a6a6a", style="italic", zorder=4)
 
 
 for x, w, accent, num, title, rows in cards:
     card(x, w, accent, num, title, rows)
 
-# arrows between cards
 for x0, x1 in [(0.310, 0.357), (0.643, 0.690)]:
     ax.add_patch(FancyArrowPatch((x0, CARD_Y + CARD_H / 2), (x1, CARD_Y + CARD_H / 2),
                                  arrowstyle="-|>", mutation_scale=18, linewidth=2.0, color=GREY, zorder=1))
 
 # ---------- WHY band ----------
-ax.add_patch(FancyBboxPatch((0.025, 0.045), 0.95, 0.265, boxstyle="round,pad=0.006,rounding_size=0.018",
+WB_Y, WB_H = 0.045, 0.255
+ax.add_patch(FancyBboxPatch((0.025, WB_Y), 0.95, WB_H, boxstyle="round,pad=0.006,rounding_size=0.016",
                             linewidth=1.1, edgecolor=LINE, facecolor="#F4F6F8", zorder=1))
-ax.text(0.05, 0.275, "WHY IT MATTERS", ha="left", va="center", fontsize=10.5, fontweight="bold",
-        color=VERM)
+ax.text(0.05, WB_Y + WB_H - 0.028, "WHY IT MATTERS", ha="left", va="center", fontsize=10.5,
+        fontweight="bold", color=VERM)
 whys = [
-    ("Leakage inflates.", "Sliding windows share vehicles and recordings across", "folds; CLEAR forbids it by default."),
-    ("CA is a hard baseline.", "A zero-parameter constant-acceleration model is", "unbeaten on clean highway data."),
-    ("Averaging hides the tail.", "~77% of windows are trivial cruising; one RMSE", "buries the safety-critical cases."),
-    ("Accuracy ≠ safety.", "The lowest-error model can forecast the most rear-end", "collisions — CLEAR measures both."),
+    ("Leakage inflates.", "Sliding windows share vehicles and recordings", "across folds; CLEAR forbids it by default.", BLUE),
+    ("CA is a hard baseline.", "A zero-parameter constant-acceleration model", "is unbeaten on clean highway data.", GREEN),
+    ("Averaging hides the tail.", "~77% of windows are trivial cruising; one RMSE", "buries the safety-critical cases.", ORANGE),
+    ("Accuracy ≠ safety.", "The lowest-error model can forecast the most", "rear-end collisions — CLEAR measures both.", VERM),
 ]
-xcol = [0.055, 0.530]; yrow = [0.205, 0.095]
-for i, (lead, l1, l2) in enumerate(whys):
+xcol = [0.055, 0.530]; yrow = [WB_Y + WB_H - 0.085, WB_Y + WB_H - 0.175]
+for i, (lead, l1, l2, cdot) in enumerate(whys):
     x = xcol[i % 2]; y = yrow[i // 2]
-    ax.add_patch(Circle((x + 0.006, y + 0.028), 0.007, color=[BLUE, GREEN, ORANGE, VERM][i], zorder=3))
-    ax.text(x + 0.024, y + 0.028, lead, ha="left", va="center", fontsize=9.6, fontweight="bold", color=INK)
-    ax.text(x + 0.024, y, l1, ha="left", va="center", fontsize=8.6, color="#3A3A3A")
-    ax.text(x + 0.024, y - 0.027, l2, ha="left", va="center", fontsize=8.6, color="#3A3A3A")
+    ax.add_patch(Circle((x + 0.006, y), 0.0072, color=cdot, zorder=3))
+    ax.text(x + 0.026, y, lead, ha="left", va="center", fontsize=9.6, fontweight="bold", color=INK)
+    ax.text(x + 0.026, y - 0.030, l1, ha="left", va="center", fontsize=8.6, color="#3A3A3A")
+    ax.text(x + 0.026, y - 0.058, l2, ha="left", va="center", fontsize=8.6, color="#3A3A3A")
 
-ax.text(0.5, 0.012, "github.com/AhmedAredah/CLEAR  ·  BSD-3-Clause", ha="center", va="center",
+ax.text(0.5, 0.014, "github.com/AhmedAredah/CLEAR  ·  BSD-3-Clause", ha="center", va="center",
         fontsize=8, color=GREY)
 
 out = os.path.dirname(__file__)
