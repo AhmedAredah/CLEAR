@@ -6,8 +6,10 @@ authors:
   - family-names: Aredah
     given-names: Ahmed
 version: 0.3.0
+doi: 10.5281/zenodo.20800658
 license: BSD-3-Clause
 repository-code: "https://github.com/AhmedAredah/CLEAR"
+url: "https://doi.org/10.5281/zenodo.20800658"
 keywords:
   - trajectory prediction
   - autonomous driving

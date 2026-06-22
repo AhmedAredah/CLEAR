@@ -3,6 +3,7 @@
 [![CI](https://github.com/AhmedAredah/CLEAR/actions/workflows/ci.yml/badge.svg)](https://github.com/AhmedAredah/CLEAR/actions/workflows/ci.yml)
 [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](pyproject.toml)
+[![DOI](https://zenodo.org/badge/1277169206.svg)](https://doi.org/10.5281/zenodo.20800658)
 
 An open toolkit for **honest, leakage-free** evaluation of highway vehicle-trajectory prediction.
 It anchors every model against the zero/low-parameter baselines — constant velocity, **constant
@@ -88,8 +89,11 @@ pip install -e ".[dev]" && pytest -q     # data-free unit tests run in CI
 ```
 
 ## Citation
-See [`CITATION.cff`](CITATION.cff). Please cite both the software (Zenodo DOI on release) and the
-paper.
+If you use CLEAR, please cite the software (archived on Zenodo) and the paper. See
+[`CITATION.cff`](CITATION.cff).
+
+> Aredah, A. *CLEAR: Clean, Leakage-free Evaluation And Reporting for highway trajectory
+> prediction* (v0.3.0). Zenodo. https://doi.org/10.5281/zenodo.20800658
 
 ## Roadmap
 - **v0.3 (current):** levelX + NGSIM adapters, leakage-safe splits, CV/CA/IDM, full metrics +
